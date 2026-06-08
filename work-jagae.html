@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jagae Stool — Hong Yejin</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 300;
+    background: #fff;
+    color: #111;
+  }
+
+  /* ── 헤더 ── */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: #e8e8e8;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 48px;
+    height: 40px;
+    border-bottom: 1px solid #ccc;
+  }
+
+  .logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1rem;
+    letter-spacing: 0.1em;
+    color: #111;
+    text-decoration: none;
+  }
+
+  nav { display: flex; gap: 8px; align-items: center; }
+
+  nav a {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1rem;
+    letter-spacing: 0.1em;
+    color: #111;
+    text-decoration: none;
+    padding: 4px 12px;
+    transition: background 0.2s, color 0.2s;
+  }
+
+  nav a:hover, nav a.active {
+    background: #111;
+    color: #fff;
+  }
+
+  /* ── 서브 헤더 (뒤로가기 + 카테고리 태그) ── */
+  .sub-header {
+    padding: 16px 48px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid #eee;
+  }
+
+  .back-btn {
+    font-size: 1.1rem;
+    color: #111;
+    text-decoration: none;
+    line-height: 1;
+    transition: opacity 0.2s;
+  }
+
+  .back-btn:hover { opacity: 0.5; }
+
+  .category-tag {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1rem;
+    letter-spacing: 0.08em;
+    font-weight: 400;
+    background: #111;
+    color: #fff;
+    padding: 3px 10px;
+    letter-spacing: 0.05em;
+  }
+
+  /* ── 메인 레이아웃 ── */
+  main {
+    display: grid;
+    grid-template-columns: 1fr 200px;
+    gap: 0;
+    max-width: 100%;
+    padding: 40px 100px;
+    align-items: start;
+  }
+
+  /* ── 왼쪽: 사진 목록 ── */
+  .photos {
+    display: flex;
+    flex-direction: column;
+    gap: -1px;
+   padding-right: 80px;
+   padding-left: 100px;
+  }
+
+  .photo-item {
+    width: 100%;
+    background: #e8e8e8;
+    overflow: hidden;
+  }
+
+  .photo-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+
+  .photo-item:hover img { transform: scale(1.02); }
+
+  /* ── 오른쪽: 작품 정보 ── */
+  .info {
+    position: sticky;
+    top: 80px;
+  }
+
+  .work-title {
+    font-size: 1.3rem;
+    font-weight: 500;
+    margin-bottom: 16px;
+    line-height: 1.3;
+  }
+
+  .work-desc {
+    font-size: 0.78rem;
+    line-height: 1.9;
+    color: #444;
+    margin-bottom: 40px;
+    word-break: keep-all;
+  }
+
+  .work-meta {
+    border-top: 1px solid #ddd;
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+
+  .meta-label {
+    font-size: 0.72rem;
+    font-weight: 500;
+    margin-bottom: 4px;
+    color: #111;
+  }
+
+  .meta-value {
+    font-size: 0.75rem;
+    color: #555;
+  }
+
+  /* 관련 작품 링크 */
+  .related-links {
+    display: flex;
+    flex-direction: column;
+    margin-top: auto ;
+    gap: 6px;
+  }
+
+  .related-links a {
+    font-size: 0.8rem;
+    color: #111;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transition: opacity 0.2s;
+  }
+
+  .related-links a:hover { opacity: 0.5; }
+    @media (max-width: 900px) {
+    main {
+      grid-template-columns: 1fr;
+      padding: 32px 20px 60px;
+    }
+ 
+    /* 모바일에서는 텍스트가 위로 올라옴 */
+    .info {
+      position: static;
+      order: -1;
+      margin-bottom: 32px;
+    }
+ 
+    header {
+      padding: 0 20px;
+    }
+    .sub-header {
+      padding: 14px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="logo">HONG YEJIN</a>
+  <nav>
+    <a href="works.html" class="active">WORKS</a>
+    <a href="info.html">INFO</a>
+  </nav>
+</header>
+
+<!-- 뒤로가기 + 카테고리 태그 -->
+<div class="sub-header">
+  <a href="works.html" class="back-btn">←</a>
+  <span class="category-tag">Product</span>
+</div>
+
+<main>
+
+  <!-- 왼쪽: 작품 사진들 -->
+  <div class="photos">
+    <!-- 사진 추가할수록 아래 패턴 복붙 -->
+    <div class="photo-item">
+      <img src="jagae/jagae1.png">
+    </div>
+    <div class="photo-item">
+      <img src="jagae/jagae2.png">
+    </div>
+    <div class="photo-item">
+      <img src="jagae/jagae3.png">
+    </div>
+    <div class="photo-item">
+      <img src="jagae/jagae4.png">
+    </div>
+   
+  </div>
+
+  <!-- 오른쪽: 작품 정보 -->
+  <div class="info">
+
+    <h1 class="work-title">Replica : <br> Jagae Stool</h1>
+
+    <p class="work-desc">
+    브랜드 세이투셰의 jagae stool을 레진을 사용하여 레플리카 하였다.
+    </p>
+
+    <div class="work-meta">
+      <div>
+        <p class="meta-label">제작형태</p>
+        <p class="meta-value">개인 프로젝트</p>
+      </div>
+      <div>
+        <p class="meta-label">작업일자</p>
+        <p class="meta-value">2024. 4</p>
+      </div>
+      <div>
+        <p class="meta-value"> Replica / CMF Design </p>
+      </div>
+    </div>
+
+    <!-- 관련 작품 링크 -->
+    <div class="related-links">
+      <a href="work-cacto.html">Cac:to ↗</a>
+      <a href="work-comuzz.html">Comuzz ↗</a>
+    </div>
+
+  </div>
+</main>
+
+</body>
+</html>

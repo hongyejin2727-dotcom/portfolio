@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Works — Hong Yejin</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+KR:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 300;
+    background: #f5f5f5;
+    color: #111;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── 헤더 ── */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: #e8e8e8;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 48px;
+    height: 56px;
+    border-bottom: 1px solid #ccc;
+  }
+
+  .logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1rem;
+    letter-spacing: 0.1em;
+    color: #111;
+    text-decoration: none;
+  }
+
+  nav { display: flex; gap: 8px; align-items: center; }
+
+  nav a {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1rem;
+    letter-spacing: 0.1em;
+    color: #111;
+    text-decoration: none;
+    padding: 4px 12px;
+    transition: background 0.2s, color 0.2s;
+  }
+
+  nav a:hover, nav a.active {
+    background: #111;
+    color: #fff;
+  }
+
+  /* ── 컨트롤 바 ── */
+  .controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 48px;
+    background: #f5f5f5;
+  }
+
+  /* 카테고리 필터 버튼 */
+  .filter-group {
+    display: flex;
+    align-items: center;
+    gap: 0;
+  }
+
+  .filter-btn {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1rem;
+    letter-spacing: 0.08em;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #666;
+    padding: 4px 14px;
+    transition: color 0.2s, background 0.2s;
+  }
+
+  .filter-btn:first-child { padding-left: 0; }
+
+  .filter-btn.active {
+    background: #111;
+    color: #fff;
+    padding: 4px 10px;
+  }
+
+  .filter-divider {
+    color: #999;
+    font-size: 0.9rem;
+    margin: 0 4px;
+  }
+
+  /* 뷰 전환 버튼 */
+  .view-group {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .view-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    opacity: 0.3;
+    transition: opacity 0.2s;
+    display: flex;
+    align-items: center;
+  }
+
+  .view-btn.active { opacity: 1; }
+
+  .view-btn svg { width: 20px; height: 20px; }
+
+  /* ── 갤러리 공통 ── */
+  main { flex: 1; padding: 10px 48px 60px; }
+
+  /* 작품 아이템 — 페이드 트랜지션 */
+  .work-item {
+    opacity: 1;
+    transform: scale(1);
+    transition: opacity 0.35s ease, transform 0.35s ease;
+    cursor: pointer;
+  }
+
+  .work-item.hidden {
+    opacity: 0;
+    transform: scale(0.96);
+    pointer-events: none;
+  }
+
+  /* 실제로 자리 없애는 건 JS로 처리 */
+  .work-item.gone {
+    display: none;
+  }
+
+  /* ── 자유정렬 (스티커) 뷰 ── */
+.gallery.sticker-view {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 20px;
+  padding: 100px 0px;
+  align-items: center;
+}
+
+  .gallery.sticker-view .work-item {
+    width: 100%;
+    height: auto;
+    margin: 10px 0px;
+    display: inline-block;
+  }
+
+  .gallery.sticker-view .work-item img {
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    object-fit: contain;
+    filter: drop-shadow(2px 4px 8px rgba(0,0,0,0.15));
+    transition: transform 0.3s ease, filter 0.3s ease;
+  }
+
+  .gallery.sticker-view .work-item:hover img {
+    transform: scale(1.06) rotate(-1deg);
+    filter: drop-shadow(4px 8px 16px rgba(0,0,0,0.25));
+  }
+
+  .gallery.sticker-view .work-item .caption { display: none; }
+
+  /* ── 큐브정렬 (그리드) 뷰 ── */
+  .gallery.grid-view {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 3px;
+    padding: 40px 0px;
+  }
+
+  .gallery.grid-view .work-item {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 403/263;
+  }
+
+  .gallery.grid-view .work-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+  }
+
+  .gallery.grid-view .work-item:hover img {
+    transform: scale(1.04);
+  }
+
+  /* 그리드 뷰 호버 오버레이 */
+  .gallery.grid-view .work-item .overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    display: flex;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 20px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .gallery.grid-view .work-item:hover .overlay { opacity: 1; }
+
+  .overlay .caption-title {
+    color: #fff;
+    font-size: 0.85rem;
+    font-weight: 400;
+    margin-bottom: 4px;
+  }
+
+  .overlay .caption-cat {
+    color: rgba(255,255,255,0.6);
+    font-size: 0.7rem;
+  }
+
+  /* 스티커 뷰에선 overlay 숨김 */
+  .gallery.sticker-view .overlay { display: none; }
+
+  /* 이미지 placeholder */
+  .work-item img {
+  /*  background: #d0d0d0;*/
+    min-height: 100px;
+  }
+.gallery.sticker-view .img-sticker { display: block !important; }
+.gallery.sticker-view .img-grid    { display: none  !important; }
+.gallery.grid-view .img-grid       { display: block !important; }
+.gallery.grid-view .img-sticker    { display: none  !important; }
+
+  @media (max-width: 900px) {
+    header {
+      padding: 10px;
+    }
+    .controls {
+      padding: 10px;
+    }
+    .filter-btn {
+      font-size: 0.8rem;
+      padding: 10px 6px;
+    }
+    main {
+      padding: 10px 6px;
+    }
+.gallery.sticker-view {
+      grid-template-columns: repeat(3, 1fr);
+      padding: 10px 0px 0px;
+    }
+    .gallery.grid-view {
+      grid-template-columns: repeat(2,1fr);
+      padding: 30px 0px;
+      gap: 10px;
+    }
+
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="logo">HONG YEJIN</a>
+  <nav>
+    <a href="works.html" class="active">WORKS</a>
+    <a href="info.html">INFO</a>
+  </nav>
+</header>
+
+<!-- 컨트롤 바 -->
+<div class="controls">
+
+  <!-- 왼쪽: 카테고리 필터 -->
+  <div class="filter-group">
+    <button class="filter-btn active" onclick="filterWorks('ALL', this)">ALL</button>
+    <span class="filter-divider">|</span>
+    <button class="filter-btn" onclick="filterWorks('Product', this)">Product</button>
+    <button class="filter-btn" onclick="filterWorks('UX/UI', this)">UX/UI</button>
+    <button class="filter-btn" onclick="filterWorks('Graphic', this)">Graphic</button>
+    <button class="filter-btn" onclick="filterWorks('etc', this)">etc</button>
+  </div>
+
+  <!-- 오른쪽: 뷰 전환 -->
+  <div class="view-group">
+    <!-- 자유정렬 아이콘 -->
+    <button class="view-btn active" id="btn-sticker" onclick="setView('sticker')" title="자유정렬">
+      <svg viewBox="0 0 20 20" fill="currentColor">
+        <rect x="2" y="2" width="7" height="5" rx="1"/>
+        <rect x="11" y="4" width="7" height="5" rx="1"/>
+        <rect x="2" y="10" width="7" height="8" rx="1"/>
+        <rect x="11" y="11" width="7" height="5" rx="1"/>
+      </svg>
+    </button>
+    <!-- 큐브정렬 아이콘 -->
+    <button class="view-btn" id="btn-grid" onclick="setView('grid')" title="큐브정렬">
+      <svg viewBox="0 0 20 20" fill="currentColor">
+        <rect x="2" y="2" width="7" height="7" rx="1"/>
+        <rect x="11" y="2" width="7" height="7" rx="1"/>
+        <rect x="2" y="11" width="7" height="7" rx="1"/>
+        <rect x="11" y="11" width="7" height="7" rx="1"/>
+      </svg>
+    </button>
+  </div>
+
+</div>
+
+<!-- 갤러리 — 기본: 자유정렬(sticker) -->
+<main>
+  <div class="gallery sticker-view" id="gallery">
+
+    <!--
+      각 작품마다:
+      - data-category: 필터에 쓰이는 카테고리값
+      - href: 상세페이지 파일명
+      - img src: 실제 이미지 경로
+      - caption-title: 작품 이름
+    -->
+
+    <a class="work-item" data-category="UX/UI" href="work-reminder.html">
+        <img class="img-sticker" src="reminder.png" alt="MATO">
+        <img class="img-grid" src="reminder3.png" alt="MATO">
+      <div class="overlay">
+        <p class="caption-title">Reminder</p>
+        <p class="caption-cat">UX/UI</p>
+      </div>
+    </a>
+
+    <a class="work-item" data-category="Product" href="work-dosirak.html">
+        <img class="img-sticker" src="dosirak.png" alt="dosirak">
+        <img class="img-grid" src="dosirak3.png" alt="dosirak"> 
+      <div class="overlay">
+        <p class="caption-title">Sejong Hangeul Day</p>
+        <p class="caption-cat">Product</p>
+      </div>
+    </a>
+
+    <a class="work-item" data-category="Product" href="work-mato.html">
+        <img class="img-sticker" src="mato.png" alt="mato">
+        <img class="img-grid" src="mato3.png" alt="mato"> 
+      <div class="overlay">
+        <p class="caption-title">Mato</p>
+        <p class="caption-cat">Product</p>
+      </div>
+    </a>
+
+    <a class="work-item" data-category="UX/UI" href="work-comuzz.html">
+      <img class="img-sticker" src="comuzz.png" alt="comuzz">
+        <img class="img-grid" src="comuzz3.png" alt="comuzz"> 
+      <div class="overlay">
+        <p class="caption-title">Comuzz</p>
+        <p class="caption-cat">UX/UI</p>
+      </div>
+    </a>
+
+    <a class="work-item" data-category="Graphic" href="work-graphic1.html">
+      <img class="img-sticker" src="yawayats.png" alt="yawayats">
+        <img class="img-grid" src="yawayats3.png" alt="yawayats"> 
+      <div class="overlay">
+        <p class="caption-title">Graphic Work 1</p>
+        <p class="caption-cat">Graphic</p>
+      </div>
+    </a>
+
+    <a class="work-item" data-category="etc" href="work-leica.html">
+      <img class="img-sticker" src="leica.png" alt="leica">
+        <img class="img-grid" src="leica3.png" alt="leica"> 
+      <div class="overlay">
+        <p class="caption-title">Leica X Chrome Hearts</p>
+        <p class="caption-cat">etc</p>
+      </div>
+    </a>
+  
+    <a class="work-item" data-category="Product" href="work-cacto.html">
+      <img class="img-sticker" src="cacto.png" alt="cacto">
+        <img class="img-grid" src="cacto3.png" alt="cacto"> 
+      <div class="overlay">
+        <p class="caption-title">Cac:to!</p>
+        <p class="caption-cat">Product</p>
+      </div>
+    </a>
+
+    <a class="work-item" data-category="Product" href="work-surflife.html">
+      <img class="img-sticker" src="surflife.png" alt="surflife">
+        <img class="img-grid" src="surflilfe3.png" alt="surflife"> 
+      <div class="overlay">
+        <p class="caption-title">Surflife</p>
+        <p class="caption-cat">Product</p>
+      </div>
+    </a>
+
+    <a class="work-item" data-category="etc" href="work-dyson.html">
+      <img class="img-sticker" src="dyson.png" alt="dyson">
+        <img class="img-grid" src="dyson3.png" alt="dyson"> 
+      <div class="overlay">
+        <p class="caption-title">Dyson Farm</p>
+        <p class="caption-cat">etc</p>
+      </div>
+    </a>
+
+    <a class="work-item" data-category="Product" href="work-moment.html">
+      <img class="img-sticker" src="moment.png" alt="moment">
+        <img class="img-grid" src="moment3.png" alt="moment"> 
+      <div class="overlay">
+        <p class="caption-title">From Moment to Forever</p>
+        <p class="caption-cat">Product</p>
+      </div>
+    </a>
+
+    <a class="work-item" data-category="Product" href="work-lueur.html">
+      <img class="img-sticker" src="lueur.png" alt="lueur">
+        <img class="img-grid" src="lueur3.png" alt="lueur"> 
+      <div class="overlay">
+        <p class="caption-title">Lueur</p>
+        <p class="caption-cat">Product</p>
+      </div>
+    </a>
+
+    <a class="work-item" data-category="etc" href="work-semobon.html">
+      <img class="img-sticker" src="semobon.png" alt="semobon">
+        <img class="img-grid" src="semobon3.png" alt="semobon"> 
+      <div class="overlay">
+        <p class="caption-title">Semobon</p>
+        <p class="caption-cat">Product</p>
+      </div>
+    </a>
+
+    <a class="work-item" data-category="Graphic" href="work-seongsu.html">
+      <img class="img-sticker" src="seongsu.png" alt="seongsu">
+        <img class="img-grid" src="seongsu3.png" alt="seongsu"> 
+      <div class="overlay">
+        <p class="caption-title">Seongsu-dong</p>
+        <p class="caption-cat">Graphic</p>
+      </div>
+    </a>
+
+    <a class="work-item" data-category="Product" href="work-jagae.html">
+      <img class="img-sticker" src="jagae.png" alt="jagae">
+        <img class="img-grid" src="jagae3.png" alt="jagae"> 
+      <div class="overlay">
+        <p class="caption-title">Jagae Stool</p>
+        <p class="caption-cat">Product</p>
+      </div>
+    </a>
+
+    <a class="work-item" data-category="Product" href="work-fragility.html">
+      <img class="img-sticker" src="fragility.png" alt="fragility">
+        <img class="img-grid" src="fragility3.png" alt="fragility"> 
+      <div class="overlay">
+        <p class="caption-title">Fragility</p>
+        <p class="caption-cat">Product</p>
+      </div>
+    </a>
+
+    <a class="work-item" data-category="etc" href="work-seoulpattern.html">
+      <img class="img-sticker" src="photo.png" alt="photo">
+        <img class="img-grid" src="photo3.png" alt="photo"> 
+      <div class="overlay">
+        <p class="caption-title">Seoul Pattern</p>
+        <p class="caption-cat">etc</p>
+      </div>
+    </a>
+
+    <a class="work-item" data-category="Graphic" href="work-semobon2.html">
+      <img class="img-sticker" src="semobon2.png" alt="semobon">
+      <div class="overlay">
+        <p class="caption-title">Semobon</p>
+        <p class="caption-cat">Graphic</p>
+      </div>
+    </a>
+    <!-- 나머지 작품들도 위 패턴으로 복붙해서 추가하세요 -->
+
+  </div>
+</main>
+
+<script>
+  // ── 카테고리 필터 ──
+  function filterWorks(category, clickedBtn) {
+  document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+  clickedBtn.classList.add('active');
+
+  const items = document.querySelectorAll('.work-item');
+
+  items.forEach(item => {
+    const match = category === 'ALL' || item.dataset.category === category;
+
+    if (match) {
+      item.classList.remove('gone');
+      item.classList.remove('hidden');
+    } else {
+      item.classList.add('hidden');
+      item.classList.add('gone');
+    }
+  });
+}
+
+function setView(type) {
+  const gallery = document.getElementById('gallery');
+  const btnSticker = document.getElementById('btn-sticker');
+  const btnGrid = document.getElementById('btn-grid');
+
+  if (type === 'sticker') {
+    gallery.classList.remove('grid-view');
+    gallery.classList.add('sticker-view');
+    btnSticker.classList.add('active');
+    btnGrid.classList.remove('active');
+  } else {
+    gallery.classList.remove('sticker-view');
+    gallery.classList.add('grid-view');
+    btnGrid.classList.add('active');
+    btnSticker.classList.remove('active');
+  }
+}
+</script>
+
+</body>
+</html>

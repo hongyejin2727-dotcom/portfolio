@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://use.typekit.net/phq1aua.css">
+<title>Hong Yejin</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+KR:wght@300;400&family=Noto+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Bebas Neue Pro', sans-serif;
+    font-weight: 300;
+    background: #fff;
+    color: #111;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── 헤더 ── */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: #e8e8e8;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 48px;
+    height: 56px;
+    border-bottom: 1px solid #ccc;
+  }
+
+  .logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1rem;
+    letter-spacing: 0.1em;
+    color: #111;
+    text-decoration: none;
+  }
+
+  nav { display: flex; gap: 8px; align-items: center; }
+
+  nav a {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1rem;
+    letter-spacing: 0.1em;
+    color: #111;
+    text-decoration: none;
+    padding: 4px 12px;
+    transition: background 0.2s, color 0.2s;
+  }
+
+  nav a:hover, nav a.active {
+    background: #111;
+    color: #fff;
+  }
+
+  /* ── 메인 ── */
+  main {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 80px 160px;
+    gap: 40px;
+    align-items: center;
+    max-width: 1920px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .hero-left {}
+
+  .hero-name {
+    font-family: 'bebas-neue-pro', sans-serif;
+    font-size: 2.2rem;
+    font-weight: 100;
+    margin-bottom: 400px;
+    color: #111;
+  }
+
+  .hero-bio {
+  font-family: "bebas-neue-pro", sans-serif;
+   font-weight: 100;
+   font-style: normal;
+    font-size: 1.2rem;
+    line-height: 1.6;
+    letter-spacing: 1.1px;
+    color: #111;
+    max-width: 800px;
+  }
+
+  .hero-right {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .hero-img {
+    width: 100%;
+    max-width: 500px;
+    aspect-ratio: 532 / 799;
+    object-fit: cover;
+    display: block;
+    /* placeholder 색상 — 실제 사진으로 교체하세요 */
+    background: #d0d0d0;
+  }
+
+  /* ── 푸터 ── */
+  footer {
+    background: #111;
+    color: #fff;
+    text-align: center;
+    padding: 80px 1px 24px;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    margin-top: 120px;
+  }
+    @media (max-width: 900px) {
+    header {
+      padding: 10px;
+    }
+    main {
+      padding: 10px;
+    }
+    .hero-name {
+    margin-bottom: 100px;
+    }
+    .hero-name { order: 1; }
+    .hero-bio { order: 2;}
+    .hero-img { order: 3; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="logo">HONG YEJIN</a>
+  <nav>
+    <a href="works.html">WORKS</a>
+    <a href="info.html">INFO</a>
+  </nav>
+</header>
+
+<main>
+  <div class="hero-left">
+    <h1 class="hero-name">Designer, Hong Yejin</h1>
+    <p class="hero-bio">
+      I am an industrial designer based in Korea.<br>
+      I enjoy observing people's everyday behaviors and am fascinated by the
+      interesting phenomena that arise from them.<br>
+      My work involves designing services across various industries to improve
+      people's lives and build new infrastructure.
+    </p>
+  </div>
+
+  <div class="hero-right">
+    <!-- 실제 사진으로 교체하세요: src="images/profile.jpg" -->
+    <img class="hero-img" src="home.png" alt="Hong Yejin">
+  </div>
+</main>
+
+<footer>
+  Copyright 2026. Hong YeJin All rights reserved.
+</footer>
+
+</body>
+</html>
